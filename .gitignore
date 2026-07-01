@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native builds (generados por prebuild)
+/android
+/ios
+
+# Metro
+.metro-health-check*
+
+# Debug / logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.log
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# EAS
+# (eas.json SÍ se versiona; los credenciales quedan en el servidor de EAS)
+
+# IDE
+.idea/
+.vscode/
+
+# Backups exportados de la app
+pingpong-backup-*.json
+*.apk
+*.aab
