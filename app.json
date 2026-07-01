@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Tracker TDM",
+    "slug": "tt-app",
+    "scheme": "ttapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.agusb.trackertdm"
+    },
+    "android": {
+      "package": "com.agusb.trackertdm",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-router"
+    ]
+  }
+}
