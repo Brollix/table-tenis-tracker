@@ -21,6 +21,8 @@ jobs:
   build:
     name: Build Android app
     runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
