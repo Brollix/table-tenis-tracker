@@ -21,8 +21,8 @@ export default function LiveScreen() {
     mode: Mode; bestOf: string; t1p1: string; t1p2: string; t2p1: string; t2p2: string; t1Label: string; t2Label: string;
   }>();
 
-  const t1Label = params.t1Label || 'Equipo 1';
-  const t2Label = params.t2Label || 'Equipo 2';
+  const t1Label = params.t1Label || 'Team 1';
+  const t2Label = params.t2Label || 'Team 2';
 
   const rules: MatchRules = {
     pointsPerSet: settings.pointsPerSet,
@@ -136,7 +136,7 @@ export default function LiveScreen() {
             {serving && !matchOver && (
               <View style={styles.serveBadge}>
                 <Ionicons name="tennisball" size={13} color={c.success} />
-                <Text style={styles.serveBadgeText}>SAQUE</Text>
+                <Text style={styles.serveBadgeText}>SERVE</Text>
               </View>
             )}
             <Text style={styles.panelName} numberOfLines={1}>{label}</Text>
@@ -168,7 +168,7 @@ export default function LiveScreen() {
         <View style={styles.topInfo}>
           <Text style={styles.sessionScore}>{sessionT1} – {sessionT2}</Text>
           <Text style={styles.rulesText}>
-            Partido {matchNum} · Juego {Math.min(completed.length + 1, rules.bestOf)} · al mejor de {rules.bestOf}
+            Match {matchNum} · Game {Math.min(completed.length + 1, rules.bestOf)} · best of {rules.bestOf}
           </Text>
         </View>
         <TouchableOpacity onPress={undoLastGame} style={styles.iconBtn} disabled={completed.length === 0 || matchOver}>
@@ -189,7 +189,7 @@ export default function LiveScreen() {
       {/* Saque: elegible al inicio del partido, indicador después */}
       {matchNotStarted ? (
         <View style={styles.serveBar}>
-          <Text style={styles.serveBarLabel}>¿Quién saca primero?</Text>
+          <Text style={styles.serveBarLabel}>Who serves first?</Text>
           <View style={styles.serveOptions}>
             {([1, 2] as const).map((t) => (
               <TouchableOpacity
@@ -207,7 +207,7 @@ export default function LiveScreen() {
       ) : (
         <View style={styles.serveInfo}>
           <Ionicons name="tennisball" size={14} color={c.success} />
-          <Text style={styles.serveInfoText}>Saca {server === 1 ? t1Label : t2Label}</Text>
+          <Text style={styles.serveInfoText}>Serving: {server === 1 ? t1Label : t2Label}</Text>
         </View>
       )}
 
@@ -215,7 +215,7 @@ export default function LiveScreen() {
       <Panel team={2} label={t2Label} cur={cur2} gamesW={won.team2} serving={server === 2} />
 
       <View style={styles.hintBar}>
-        <Text style={styles.hintText}>Tocá cada lado para sumar un punto</Text>
+        <Text style={styles.hintText}>Tap each side to add a point</Text>
       </View>
 
       {/* Partido terminado → seguir o terminar sesión */}
@@ -223,12 +223,12 @@ export default function LiveScreen() {
         visible={matchOver && matchSaved}
         icon="trophy"
         iconColor={c.success}
-        title={`¡Partido para ${finalWinner === 1 ? t1Label : t2Label}!`}
+        title={`${finalWinner === 1 ? t1Label : t2Label} wins the match!`}
         bigValue={`${won.team1} - ${won.team2}`}
-        message={`Sesión: ${sessionT1} a ${sessionT2}`}
+        message={`Session: ${sessionT1}–${sessionT2}`}
         actions={[
-          { label: 'Siguiente partido', variant: 'success', onPress: nextMatch },
-          { label: 'Terminar sesión', variant: 'secondary', onPress: finishSession },
+          { label: 'Next match', variant: 'success', onPress: nextMatch },
+          { label: 'End session', variant: 'secondary', onPress: finishSession },
         ]}
       />
 
@@ -237,17 +237,17 @@ export default function LiveScreen() {
         visible={showExit}
         icon="exit-outline"
         iconColor={c.danger}
-        title="Terminar la sesión"
+        title="End session"
         message={
           sessionT1 + sessionT2 > 0
-            ? `Ya se guardaron ${sessionT1 + sessionT2} partido${sessionT1 + sessionT2 > 1 ? 's' : ''}. El partido en curso (si hay) no se guarda.`
-            : 'El partido en curso no se va a guardar.'
+            ? `${sessionT1 + sessionT2} match${sessionT1 + sessionT2 > 1 ? 'es' : ''} already saved. The match in progress (if any) won't be saved.`
+            : "The match in progress won't be saved."
         }
         onRequestClose={() => setShowExit(false)}
         dismissable
         actions={[
-          { label: 'Terminar sesión', variant: 'danger', onPress: finishSession },
-          { label: 'Seguir jugando', variant: 'secondary', onPress: () => setShowExit(false) },
+          { label: 'End session', variant: 'danger', onPress: finishSession },
+          { label: 'Keep playing', variant: 'secondary', onPress: () => setShowExit(false) },
         ]}
       />
     </SafeAreaView>

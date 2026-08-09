@@ -42,8 +42,8 @@ export default function HistorialScreen() {
       ListEmptyComponent={
         <View style={styles.empty}>
           <Text style={styles.emptyIcon}>🏓</Text>
-          <Text style={styles.emptyText}>No hay partidos registrados</Text>
-          <Text style={styles.emptyHint}>Tocá "Nuevo" para agregar el primero</Text>
+          <Text style={styles.emptyText}>No matches yet</Text>
+          <Text style={styles.emptyHint}>Tap "New" to add your first one</Text>
         </View>
       }
     />

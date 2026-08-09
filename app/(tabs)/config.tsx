@@ -25,14 +25,14 @@ export default function ConfigScreen() {
       if (await Sharing.isAvailableAsync()) {
         await Sharing.shareAsync(uri, {
           mimeType: 'application/json',
-          dialogTitle: 'Exportar datos de TT App',
+          dialogTitle: 'Export Tracker TDM data',
           UTI: 'public.json',
         });
       } else {
-        Alert.alert('Exportado', `Archivo guardado en:\n${uri}`);
+        Alert.alert('Exported', `File saved to:\n${uri}`);
       }
     } catch (e) {
-      Alert.alert('Error', 'No se pudieron exportar los datos.');
+      Alert.alert('Error', 'Could not export the data.');
     } finally {
       setExporting(false);
     }
@@ -40,13 +40,13 @@ export default function ConfigScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      {/* Apariencia */}
-      <Text style={styles.sectionTitle}>Apariencia</Text>
+      {/* Appearance */}
+      <Text style={styles.sectionTitle}>Appearance</Text>
       <View style={styles.card}>
         <View style={styles.row}>
           <View style={styles.rowLabel}>
             <Ionicons name="moon" size={20} color={c.primary} />
-            <Text style={styles.rowText}>Modo oscuro</Text>
+            <Text style={styles.rowText}>Dark mode</Text>
           </View>
           <Switch
             value={settings.theme === 'dark'}
@@ -57,11 +57,11 @@ export default function ConfigScreen() {
         </View>
       </View>
 
-      {/* Reglas del partido */}
-      <Text style={styles.sectionTitle}>Reglas del partido</Text>
+      {/* Match rules */}
+      <Text style={styles.sectionTitle}>Match rules</Text>
       <View style={styles.card}>
         <View style={styles.rowColumn}>
-          <Text style={styles.rowText}>Puntos por set</Text>
+          <Text style={styles.rowText}>Points per game</Text>
           <View style={styles.options}>
             {[11, 21].map((p) => (
               <TouchableOpacity
@@ -78,40 +78,40 @@ export default function ConfigScreen() {
         <View style={styles.divider} />
 
         <View style={styles.rowColumn}>
-          <Text style={styles.rowText}>Empate al final del set</Text>
+          <Text style={styles.rowText}>Deuce rule</Text>
           <View style={styles.options}>
             <TouchableOpacity
               style={[styles.option, settings.winByTwo && styles.optionActive]}
               onPress={() => update('winByTwo', true)}
             >
-              <Text style={[styles.optionText, settings.winByTwo && styles.optionTextActive]}>Diferencia de 2</Text>
+              <Text style={[styles.optionText, settings.winByTwo && styles.optionTextActive]}>Win by 2</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.option, !settings.winByTwo && styles.optionActive]}
               onPress={() => update('winByTwo', false)}
             >
-              <Text style={[styles.optionText, !settings.winByTwo && styles.optionTextActive]}>Punto de oro</Text>
+              <Text style={[styles.optionText, !settings.winByTwo && styles.optionTextActive]}>Golden point</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.optionNote}>
             {settings.winByTwo
-              ? `Si van ${deuce}-${deuce}, no se gana a ${settings.pointsPerSet}: se sigue jugando hasta sacar 2 de diferencia (${settings.pointsPerSet + 1}-${deuce}, ${settings.pointsPerSet + 2}-${settings.pointsPerSet}, etc.).`
-              : `Muerte súbita: si van ${deuce}-${deuce}, el siguiente punto define el set (se gana ${settings.pointsPerSet}-${deuce}).`}
+              ? `At ${deuce}-${deuce}, you don't win at ${settings.pointsPerSet}: play continues until someone leads by 2 (${settings.pointsPerSet + 1}-${deuce}, ${settings.pointsPerSet + 2}-${settings.pointsPerSet}, etc.).`
+              : `Sudden death: at ${deuce}-${deuce}, the next point decides the game (won ${settings.pointsPerSet}-${deuce}).`}
           </Text>
         </View>
       </View>
 
       <Text style={styles.note}>
-        El "al mejor de" se elige al iniciar cada partido en vivo.
+        "Best of" is chosen when starting each live match.
       </Text>
 
-      {/* Datos */}
-      <Text style={styles.sectionTitle}>Datos</Text>
+      {/* Data */}
+      <Text style={styles.sectionTitle}>Data</Text>
       <View style={styles.card}>
         <TouchableOpacity style={styles.actionRow} onPress={handleExport} disabled={exporting}>
           <View style={styles.rowLabel}>
             <Ionicons name="download-outline" size={20} color={c.primary} />
-            <Text style={styles.rowText}>Exportar datos (JSON)</Text>
+            <Text style={styles.rowText}>Export data (JSON)</Text>
           </View>
           {exporting
             ? <ActivityIndicator color={c.primary} />
@@ -120,8 +120,7 @@ export default function ConfigScreen() {
       </View>
 
       <Text style={styles.note}>
-        Genera un archivo con todos los jugadores y partidos para hacer backup o migrarlos a un
-        servidor más adelante.
+        Generates a file with all players and matches to back up or migrate to a server later.
       </Text>
     </ScrollView>
   );

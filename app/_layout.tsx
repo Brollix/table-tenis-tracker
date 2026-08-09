@@ -22,9 +22,9 @@ function RootNav() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="match/[id]" options={{ title: 'Partido', presentation: 'card' }} />
-        <Stack.Screen name="match/edit/[id]" options={{ title: 'Editar partido', presentation: 'card' }} />
-        <Stack.Screen name="live" options={{ title: 'En vivo', headerShown: false, presentation: 'fullScreenModal' }} />
+        <Stack.Screen name="match/[id]" options={{ title: 'Match', presentation: 'card' }} />
+        <Stack.Screen name="match/edit/[id]" options={{ title: 'Edit match', presentation: 'card' }} />
+        <Stack.Screen name="live" options={{ title: 'Live', headerShown: false, presentation: 'fullScreenModal' }} />
       </Stack>
     </>
   );

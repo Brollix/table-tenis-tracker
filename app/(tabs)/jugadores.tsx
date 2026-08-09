@@ -36,15 +36,15 @@ export default function JugadoresScreen() {
     const count = await getPlayerMatchCount(player.id);
     if (count > 0) {
       Alert.alert(
-        'No se puede eliminar',
-        `${player.name} tiene ${count} partido${count > 1 ? 's' : ''} registrado${count > 1 ? 's' : ''}.`,
+        "Can't delete",
+        `${player.name} has ${count} recorded match${count > 1 ? 'es' : ''}.`,
       );
       return;
     }
-    Alert.alert('Eliminar jugador', `¿Eliminar a ${player.name}?`, [
-      { text: 'Cancelar', style: 'cancel' },
+    Alert.alert('Delete player', `Delete ${player.name}?`, [
+      { text: 'Cancel', style: 'cancel' },
       {
-        text: 'Eliminar', style: 'destructive', onPress: async () => {
+        text: 'Delete', style: 'destructive', onPress: async () => {
           await deletePlayer(player.id);
           await load();
         },
@@ -57,7 +57,7 @@ export default function JugadoresScreen() {
       <View style={styles.addRow}>
         <TextInput
           style={styles.input}
-          placeholder="Nombre del jugador"
+          placeholder="Player name"
           placeholderTextColor={c.textFaint}
           value={name}
           onChangeText={setName}
@@ -86,12 +86,12 @@ export default function JugadoresScreen() {
               <Text style={styles.avatarText}>{item.name.charAt(0).toUpperCase()}</Text>
             </View>
             <Text style={styles.playerName}>{item.name}</Text>
-            <Text style={styles.hint}>mantener para eliminar</Text>
+            <Text style={styles.hint}>hold to delete</Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyText}>Agregá jugadores para empezar</Text>
+            <Text style={styles.emptyText}>Add players to get started</Text>
           </View>
         }
         contentContainerStyle={players.length === 0 ? styles.emptyContainer : undefined}

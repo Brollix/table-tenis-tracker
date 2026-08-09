@@ -26,7 +26,7 @@ export default function PlayerPicker({ label, players, selected, disabledIds = [
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={styles.picker} onPress={() => setOpen(true)}>
           <Text style={[styles.value, !selectedPlayer && styles.placeholder]}>
-            {selectedPlayer ? selectedPlayer.name : 'Elegir jugador'}
+            {selectedPlayer ? selectedPlayer.name : 'Choose player'}
           </Text>
           <Text style={styles.arrow}>▾</Text>
         </TouchableOpacity>
@@ -39,7 +39,7 @@ export default function PlayerPicker({ label, players, selected, disabledIds = [
           <FlatList
             data={players}
             keyExtractor={(p) => String(p.id)}
-            ListEmptyComponent={<Text style={styles.emptyText}>No hay jugadores. Agregalos en la pestaña Jugadores.</Text>}
+            ListEmptyComponent={<Text style={styles.emptyText}>No players yet. Add them in the Players tab.</Text>}
             renderItem={({ item }) => {
               const disabled = disabledIds.includes(item.id);
               const isSelected = item.id === selected;

@@ -21,8 +21,8 @@ function teamLabel(match: Match, team: 1 | 2): string {
 
 function formatDateTime(ts: number): string {
   const d = new Date(ts * 1000);
-  return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })
-    + ' · ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+    + ' · ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
 export default function MatchDetailScreen() {
@@ -37,10 +37,10 @@ export default function MatchDetailScreen() {
   }, [id]));
 
   const handleDelete = () => {
-    Alert.alert('Eliminar partido', '¿Seguro que querés eliminar este partido?', [
-      { text: 'Cancelar', style: 'cancel' },
+    Alert.alert('Delete match', 'Are you sure you want to delete this match?', [
+      { text: 'Cancel', style: 'cancel' },
       {
-        text: 'Eliminar', style: 'destructive', onPress: async () => {
+        text: 'Delete', style: 'destructive', onPress: async () => {
           await deleteMatch(Number(id));
           router.back();
         },
@@ -60,21 +60,21 @@ export default function MatchDetailScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.banner}>
         <Ionicons name="trophy" size={28} color={c.success} />
-        <Text style={styles.winnerLabel}>Ganador</Text>
+        <Text style={styles.winnerLabel}>Winner</Text>
         <Text style={styles.winnerName}>{winnerName}</Text>
         <Text style={styles.bannerScore}>{won.team1} - {won.team2}</Text>
       </View>
 
       <View style={styles.metaRow}>
-        <Text style={styles.metaPill}>{match.mode === 'singles' ? 'Singles' : 'Dobles'}</Text>
+        <Text style={styles.metaPill}>{match.mode === 'singles' ? 'Singles' : 'Doubles'}</Text>
         <Text style={styles.metaDate}>{formatDateTime(match.played_at)}</Text>
       </View>
 
       <View style={styles.table}>
         <View style={[styles.row, styles.rowHead]}>
-          <Text style={[styles.cell, styles.nameCell, styles.headText]}>Jugador</Text>
+          <Text style={[styles.cell, styles.nameCell, styles.headText]}>Player</Text>
           {match.sets.map((s) => (
-            <Text key={s.set_number} style={[styles.cell, styles.headText]}>S{s.set_number}</Text>
+            <Text key={s.set_number} style={[styles.cell, styles.headText]}>G{s.set_number}</Text>
           ))}
         </View>
 
@@ -99,12 +99,12 @@ export default function MatchDetailScreen() {
 
       <TouchableOpacity style={styles.editBtn} onPress={() => router.push(`/match/edit/${id}`)}>
         <Ionicons name="create-outline" size={18} color={c.onPrimary} />
-        <Text style={styles.editText}>Editar partido</Text>
+        <Text style={styles.editText}>Edit match</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.deleteBtn} onPress={handleDelete}>
         <Ionicons name="trash-outline" size={18} color={c.danger} />
-        <Text style={styles.deleteText}>Eliminar partido</Text>
+        <Text style={styles.deleteText}>Delete match</Text>
       </TouchableOpacity>
     </ScrollView>
   );

@@ -24,7 +24,7 @@ function teamLabel(match: Match, team: 1 | 2): string {
 
 function formatDate(ts: number): string {
   const d = new Date(ts * 1000);
-  return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 export default function MatchCard({ match, onPress }: Props) {
@@ -39,7 +39,7 @@ export default function MatchCard({ match, onPress }: Props) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
       <View style={styles.header}>
-        <Text style={styles.mode}>{match.mode === 'singles' ? 'Singles' : 'Dobles'}</Text>
+        <Text style={styles.mode}>{match.mode === 'singles' ? 'Singles' : 'Doubles'}</Text>
         <Text style={styles.date}>{formatDate(match.played_at)}</Text>
       </View>
 

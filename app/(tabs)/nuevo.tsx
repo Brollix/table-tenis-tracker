@@ -42,12 +42,12 @@ export default function NuevoScreen() {
   const selectedIds = [t1p1, t1p2, t2p1, t2p2].filter(Boolean) as number[];
 
   const t1Label = mode === 'singles'
-    ? (players.find((p) => p.id === t1p1)?.name || 'Equipo 1')
-    : [players.find((p) => p.id === t1p1)?.name, players.find((p) => p.id === t1p2)?.name].filter(Boolean).join(' & ') || 'Equipo 1';
+    ? (players.find((p) => p.id === t1p1)?.name || 'Team 1')
+    : [players.find((p) => p.id === t1p1)?.name, players.find((p) => p.id === t1p2)?.name].filter(Boolean).join(' & ') || 'Team 1';
 
   const t2Label = mode === 'singles'
-    ? (players.find((p) => p.id === t2p1)?.name || 'Equipo 2')
-    : [players.find((p) => p.id === t2p1)?.name, players.find((p) => p.id === t2p2)?.name].filter(Boolean).join(' & ') || 'Equipo 2';
+    ? (players.find((p) => p.id === t2p1)?.name || 'Team 2')
+    : [players.find((p) => p.id === t2p1)?.name, players.find((p) => p.id === t2p2)?.name].filter(Boolean).join(' & ') || 'Team 2';
 
   // parsed sets for live feedback (only complete, non-tied rows count)
   const parsedSets = sets
@@ -67,14 +67,14 @@ export default function NuevoScreen() {
   };
 
   const playersReady = (): string | null => {
-    if (!t1p1 || !t2p1) return 'Seleccioná todos los jugadores';
-    if (mode === 'doubles' && (!t1p2 || !t2p2)) return 'Seleccioná todos los jugadores del dobles';
+    if (!t1p1 || !t2p1) return 'Select all players';
+    if (mode === 'doubles' && (!t1p2 || !t2p2)) return 'Select all players for doubles';
     return null;
   };
 
   const goLive = () => {
     const err = playersReady();
-    if (err) { Alert.alert('Faltan datos', err); return; }
+    if (err) { Alert.alert('Missing info', err); return; }
     update('bestOf', bestOf); // recordar la última elección
     router.push({
       pathname: '/live',
@@ -93,13 +93,13 @@ export default function NuevoScreen() {
 
   const handleSave = async () => {
     const err = playersReady();
-    if (err) { Alert.alert('Faltan datos', err); return; }
+    if (err) { Alert.alert('Missing info', err); return; }
     for (const s of sets) {
-      if (s.team1 === '' || s.team2 === '') { Alert.alert('Faltan datos', 'Completá los puntajes de todos los sets'); return; }
-      if (s.team1 === s.team2) { Alert.alert('Puntaje inválido', 'Un set no puede terminar empatado'); return; }
+      if (s.team1 === '' || s.team2 === '') { Alert.alert('Missing info', 'Fill in the scores for all games'); return; }
+      if (s.team1 === s.team2) { Alert.alert('Invalid score', 'A game cannot end tied'); return; }
     }
     const winner = computeWinner(parsedSets);
-    if (winner === null) { Alert.alert('Resultado empatado', 'Los sets están empatados, agregá un set decisivo'); return; }
+    if (winner === null) { Alert.alert('Tied result', 'The games are tied, add a deciding game'); return; }
 
     setSaving(true);
     const data: NewMatchData = {
@@ -118,7 +118,7 @@ export default function NuevoScreen() {
       setSets([emptySet()]); setMode('singles');
       router.navigate('/(tabs)/');
     } catch (e) {
-      Alert.alert('Error', 'No se pudo guardar el partido');
+      Alert.alert('Error', 'Could not save the match');
     } finally {
       setSaving(false);
     }
@@ -141,7 +141,7 @@ export default function NuevoScreen() {
               color={entry === e ? c.onPrimary : c.textMuted}
             />
             <Text style={[styles.segmentText, entry === e && styles.segmentTextActive]}>
-              {e === 'manual' ? 'Carga manual' : 'En vivo'}
+              {e === 'manual' ? 'Manual entry' : 'Live'}
             </Text>
           </TouchableOpacity>
         ))}
@@ -149,7 +149,7 @@ export default function NuevoScreen() {
 
       {/* Modalidad */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Modalidad</Text>
+        <Text style={styles.sectionTitle}>Format</Text>
         <View style={styles.toggle}>
           {(['singles', 'doubles'] as Mode[]).map((m) => (
             <TouchableOpacity
@@ -158,7 +158,7 @@ export default function NuevoScreen() {
               onPress={() => switchMode(m)}
             >
               <Text style={[styles.toggleText, mode === m && styles.toggleTextActive]}>
-                {m === 'singles' ? 'Singles' : 'Dobles'}
+                {m === 'singles' ? 'Singles' : 'Doubles'}
               </Text>
             </TouchableOpacity>
           ))}
@@ -169,15 +169,15 @@ export default function NuevoScreen() {
       <View style={styles.section}>
         <View style={styles.teamsRow}>
           <View style={styles.teamCol}>
-            <Text style={styles.teamHeader}>Equipo 1</Text>
-            <PlayerPicker label="Jugador 1" players={players} selected={t1p1} disabledIds={selectedIds.filter((id) => id !== t1p1)} onSelect={setT1p1} />
-            {mode === 'doubles' && <PlayerPicker label="Jugador 2" players={players} selected={t1p2} disabledIds={selectedIds.filter((id) => id !== t1p2)} onSelect={setT1p2} />}
+            <Text style={styles.teamHeader}>Team 1</Text>
+            <PlayerPicker label="Player 1" players={players} selected={t1p1} disabledIds={selectedIds.filter((id) => id !== t1p1)} onSelect={setT1p1} />
+            {mode === 'doubles' && <PlayerPicker label="Player 2" players={players} selected={t1p2} disabledIds={selectedIds.filter((id) => id !== t1p2)} onSelect={setT1p2} />}
           </View>
           <View style={styles.vsCol}><Text style={styles.vs}>VS</Text></View>
           <View style={styles.teamCol}>
-            <Text style={styles.teamHeader}>Equipo 2</Text>
-            <PlayerPicker label="Jugador 1" players={players} selected={t2p1} disabledIds={selectedIds.filter((id) => id !== t2p1)} onSelect={setT2p1} />
-            {mode === 'doubles' && <PlayerPicker label="Jugador 2" players={players} selected={t2p2} disabledIds={selectedIds.filter((id) => id !== t2p2)} onSelect={setT2p2} />}
+            <Text style={styles.teamHeader}>Team 2</Text>
+            <PlayerPicker label="Player 1" players={players} selected={t2p1} disabledIds={selectedIds.filter((id) => id !== t2p1)} onSelect={setT2p1} />
+            {mode === 'doubles' && <PlayerPicker label="Player 2" players={players} selected={t2p2} disabledIds={selectedIds.filter((id) => id !== t2p2)} onSelect={setT2p2} />}
           </View>
         </View>
       </View>
@@ -186,7 +186,7 @@ export default function NuevoScreen() {
         <>
           {/* Sets */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Sets</Text>
+            <Text style={styles.sectionTitle}>Games</Text>
             {sets.map((s, i) => (
               <SetScoreInput
                 key={i}
@@ -202,7 +202,7 @@ export default function NuevoScreen() {
               />
             ))}
             <TouchableOpacity style={styles.addSetBtn} onPress={() => setSets((prev) => [...prev, emptySet()])}>
-              <Text style={styles.addSetText}>+ Agregar set</Text>
+              <Text style={styles.addSetText}>+ Add game</Text>
             </TouchableOpacity>
           </View>
 
@@ -219,8 +219,8 @@ export default function NuevoScreen() {
               />
               <Text style={[styles.feedbackText, leading !== null && styles.feedbackTextWin]}>
                 {leading === null
-                  ? `Empate ${won.team1}-${won.team2}`
-                  : `Va ganando ${leading === 1 ? t1Label : t2Label} (${won.team1}-${won.team2})`}
+                  ? `Tie ${won.team1}-${won.team2}`
+                  : `${leading === 1 ? t1Label : t2Label} leading (${won.team1}-${won.team2})`}
               </Text>
             </View>
           )}
@@ -228,13 +228,13 @@ export default function NuevoScreen() {
           <TouchableOpacity style={[styles.primaryBtn, saving && styles.btnDisabled]} onPress={handleSave} disabled={saving}>
             {saving
               ? <ActivityIndicator color={c.onPrimary} />
-              : <Text style={styles.primaryBtnText}>Guardar partido</Text>}
+              : <Text style={styles.primaryBtnText}>Save match</Text>}
           </TouchableOpacity>
         </>
       ) : (
         <>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Al mejor de</Text>
+            <Text style={styles.sectionTitle}>Best of</Text>
             <View style={styles.toggle}>
               {[3, 5, 7, 9].map((b) => (
                 <TouchableOpacity
@@ -247,13 +247,13 @@ export default function NuevoScreen() {
               ))}
             </View>
             <Text style={styles.hint}>
-              Gana el primero en llevarse {Math.floor(bestOf / 2) + 1} juegos.
+              First to {Math.floor(bestOf / 2) + 1} games wins.
             </Text>
           </View>
 
           <TouchableOpacity style={styles.primaryBtn} onPress={goLive}>
             <Ionicons name="flash" size={18} color={c.onPrimary} />
-            <Text style={styles.primaryBtnText}>Iniciar partido en vivo</Text>
+            <Text style={styles.primaryBtnText}>Start live match</Text>
           </TouchableOpacity>
         </>
       )}

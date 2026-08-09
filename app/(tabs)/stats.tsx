@@ -27,9 +27,9 @@ export default function StatsScreen() {
         stats.length > 0 ? (
           <View style={styles.tableHeader}>
             <Text style={[styles.headerCell, styles.rankCell]}>#</Text>
-            <Text style={[styles.headerCell, styles.nameCell]}>Jugador</Text>
-            <Text style={[styles.headerCell, styles.statCell]}>PJ</Text>
-            <Text style={[styles.headerCell, styles.statCell]}>PG</Text>
+            <Text style={[styles.headerCell, styles.nameCell]}>Player</Text>
+            <Text style={[styles.headerCell, styles.statCell]}>GP</Text>
+            <Text style={[styles.headerCell, styles.statCell]}>GW</Text>
             <Text style={[styles.headerCell, styles.pctCell]}>Win %</Text>
           </View>
         ) : null
@@ -51,7 +51,7 @@ export default function StatsScreen() {
       ListEmptyComponent={
         <View style={styles.empty}>
           <Text style={styles.emptyIcon}>🏆</Text>
-          <Text style={styles.emptyText}>Agregá jugadores y jugá partidos para ver el ranking</Text>
+          <Text style={styles.emptyText}>Add players and log matches to see the ranking</Text>
         </View>
       }
     />

@@ -52,11 +52,11 @@ export default function EditMatchScreen() {
   const selectedIds = [t1p1, t1p2, t2p1, t2p2].filter(Boolean) as number[];
 
   const t1Label = mode === 'singles'
-    ? (players.find((p) => p.id === t1p1)?.name || 'Equipo 1')
-    : [players.find((p) => p.id === t1p1)?.name, players.find((p) => p.id === t1p2)?.name].filter(Boolean).join(' & ') || 'Equipo 1';
+    ? (players.find((p) => p.id === t1p1)?.name || 'Team 1')
+    : [players.find((p) => p.id === t1p1)?.name, players.find((p) => p.id === t1p2)?.name].filter(Boolean).join(' & ') || 'Team 1';
   const t2Label = mode === 'singles'
-    ? (players.find((p) => p.id === t2p1)?.name || 'Equipo 2')
-    : [players.find((p) => p.id === t2p1)?.name, players.find((p) => p.id === t2p2)?.name].filter(Boolean).join(' & ') || 'Equipo 2';
+    ? (players.find((p) => p.id === t2p1)?.name || 'Team 2')
+    : [players.find((p) => p.id === t2p1)?.name, players.find((p) => p.id === t2p2)?.name].filter(Boolean).join(' & ') || 'Team 2';
 
   const parsedSets = sets
     .filter((s) => s.team1 !== '' && s.team2 !== '' && s.team1 !== s.team2)
@@ -69,14 +69,14 @@ export default function EditMatchScreen() {
   };
 
   const handleSave = async () => {
-    if (!t1p1 || !t2p1) { Alert.alert('Faltan datos', 'Seleccioná todos los jugadores'); return; }
-    if (mode === 'doubles' && (!t1p2 || !t2p2)) { Alert.alert('Faltan datos', 'Seleccioná todos los jugadores del dobles'); return; }
+    if (!t1p1 || !t2p1) { Alert.alert('Missing info', 'Select all players'); return; }
+    if (mode === 'doubles' && (!t1p2 || !t2p2)) { Alert.alert('Missing info', 'Select all players for doubles'); return; }
     for (const s of sets) {
-      if (s.team1 === '' || s.team2 === '') { Alert.alert('Faltan datos', 'Completá los puntajes de todos los sets'); return; }
-      if (s.team1 === s.team2) { Alert.alert('Puntaje inválido', 'Un set no puede terminar empatado'); return; }
+      if (s.team1 === '' || s.team2 === '') { Alert.alert('Missing info', 'Fill in the scores for all games'); return; }
+      if (s.team1 === s.team2) { Alert.alert('Invalid score', 'A game cannot end tied'); return; }
     }
     const winner = computeWinner(parsedSets);
-    if (winner === null) { Alert.alert('Resultado empatado', 'Los sets están empatados, agregá un set decisivo'); return; }
+    if (winner === null) { Alert.alert('Tied result', 'The games are tied, add a deciding game'); return; }
 
     setSaving(true);
     const data: NewMatchData = {
@@ -92,7 +92,7 @@ export default function EditMatchScreen() {
       await updateMatch(Number(id), data);
       router.back();
     } catch (e) {
-      Alert.alert('Error', 'No se pudo guardar el partido');
+      Alert.alert('Error', 'Could not save the match');
     } finally {
       setSaving(false);
     }
@@ -105,7 +105,7 @@ export default function EditMatchScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Modalidad</Text>
+        <Text style={styles.sectionTitle}>Format</Text>
         <View style={styles.toggle}>
           {(['singles', 'doubles'] as Mode[]).map((m) => (
             <TouchableOpacity
@@ -114,7 +114,7 @@ export default function EditMatchScreen() {
               onPress={() => { setMode(m); if (m === 'singles') { setT1p2(null); setT2p2(null); } }}
             >
               <Text style={[styles.toggleText, mode === m && styles.toggleTextActive]}>
-                {m === 'singles' ? 'Singles' : 'Dobles'}
+                {m === 'singles' ? 'Singles' : 'Doubles'}
               </Text>
             </TouchableOpacity>
           ))}
@@ -124,21 +124,21 @@ export default function EditMatchScreen() {
       <View style={styles.section}>
         <View style={styles.teamsRow}>
           <View style={styles.teamCol}>
-            <Text style={styles.teamHeader}>Equipo 1</Text>
-            <PlayerPicker label="Jugador 1" players={players} selected={t1p1} disabledIds={selectedIds.filter((x) => x !== t1p1)} onSelect={setT1p1} />
-            {mode === 'doubles' && <PlayerPicker label="Jugador 2" players={players} selected={t1p2} disabledIds={selectedIds.filter((x) => x !== t1p2)} onSelect={setT1p2} />}
+            <Text style={styles.teamHeader}>Team 1</Text>
+            <PlayerPicker label="Player 1" players={players} selected={t1p1} disabledIds={selectedIds.filter((x) => x !== t1p1)} onSelect={setT1p1} />
+            {mode === 'doubles' && <PlayerPicker label="Player 2" players={players} selected={t1p2} disabledIds={selectedIds.filter((x) => x !== t1p2)} onSelect={setT1p2} />}
           </View>
           <View style={styles.vsCol}><Text style={styles.vs}>VS</Text></View>
           <View style={styles.teamCol}>
-            <Text style={styles.teamHeader}>Equipo 2</Text>
-            <PlayerPicker label="Jugador 1" players={players} selected={t2p1} disabledIds={selectedIds.filter((x) => x !== t2p1)} onSelect={setT2p1} />
-            {mode === 'doubles' && <PlayerPicker label="Jugador 2" players={players} selected={t2p2} disabledIds={selectedIds.filter((x) => x !== t2p2)} onSelect={setT2p2} />}
+            <Text style={styles.teamHeader}>Team 2</Text>
+            <PlayerPicker label="Player 1" players={players} selected={t2p1} disabledIds={selectedIds.filter((x) => x !== t2p1)} onSelect={setT2p1} />
+            {mode === 'doubles' && <PlayerPicker label="Player 2" players={players} selected={t2p2} disabledIds={selectedIds.filter((x) => x !== t2p2)} onSelect={setT2p2} />}
           </View>
         </View>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Sets</Text>
+        <Text style={styles.sectionTitle}>Games</Text>
         {sets.map((s, i) => (
           <SetScoreInput
             key={i}
@@ -154,7 +154,7 @@ export default function EditMatchScreen() {
           />
         ))}
         <TouchableOpacity style={styles.addSetBtn} onPress={() => setSets((prev) => [...prev, emptySet()])}>
-          <Text style={styles.addSetText}>+ Agregar set</Text>
+          <Text style={styles.addSetText}>+ Add game</Text>
         </TouchableOpacity>
       </View>
 
@@ -162,14 +162,14 @@ export default function EditMatchScreen() {
         <View style={[styles.feedback, leading === null ? styles.feedbackTie : styles.feedbackWin]}>
           <Text style={[styles.feedbackText, leading !== null && styles.feedbackTextWin]}>
             {leading === null
-              ? `Empate ${won.team1}-${won.team2}`
-              : `Gana ${leading === 1 ? t1Label : t2Label} (${won.team1}-${won.team2})`}
+              ? `Tie ${won.team1}-${won.team2}`
+              : `${leading === 1 ? t1Label : t2Label} wins (${won.team1}-${won.team2})`}
           </Text>
         </View>
       )}
 
       <TouchableOpacity style={[styles.primaryBtn, saving && styles.btnDisabled]} onPress={handleSave} disabled={saving}>
-        {saving ? <ActivityIndicator color={c.onPrimary} /> : <Text style={styles.primaryBtnText}>Guardar cambios</Text>}
+        {saving ? <ActivityIndicator color={c.onPrimary} /> : <Text style={styles.primaryBtnText}>Save changes</Text>}
       </TouchableOpacity>
     </ScrollView>
   );

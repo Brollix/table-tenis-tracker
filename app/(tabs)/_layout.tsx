@@ -20,21 +20,21 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Historial',
+          title: 'History',
           tabBarIcon: ({ color, size }) => <Ionicons name="list" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="nuevo"
         options={{
-          title: 'Nuevo',
+          title: 'New',
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="jugadores"
         options={{
-          title: 'Jugadores',
+          title: 'Players',
           tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />,
         }}
       />
@@ -48,7 +48,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="config"
         options={{
-          title: 'Config',
+          title: 'Settings',
           tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
         }}
       />
