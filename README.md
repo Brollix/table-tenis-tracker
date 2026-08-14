@@ -16,4 +16,6 @@ Hecha con Expo / React Native, para Android e iOS.
 
 ## A futuro
 
-La idea es dejar de depender de la base de datos local en el teléfono y pasar a un backend con base de datos centralizada, para que cada usuario pueda loguearse y acceder a sus datos desde cualquier dispositivo, y compartir el historial de partidos con el resto del grupo. Al tener todos los partidos centralizados, eso también habilita sumar un sistema de ranking tipo Elo entre los jugadores.
+La idea es dejar de depender de la base de datos local en el teléfono y pasar a un backend con base de datos centralizada, para que cada usuario pueda loguearse y acceder a sus datos desde cualquier dispositivo, y compartir el historial de partidos con el resto del grupo.
+
+Con los partidos centralizados, se habilita sumar un **ranking Elo** entre los jugadores: cada uno arranca con un puntaje base, y después de cada partido el puntaje se actualiza según el resultado y según qué tan favorito era cada jugador (ganarle a alguien mejor rankeado suma más puntos que ganarle a alguien peor rankeado, y perder contra alguien peor rankeado resta más que perder contra alguien mejor). Así, con el tiempo, el ranking refleja mejor el nivel real de cada uno, más allá del simple % de victorias.
