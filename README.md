@@ -16,4 +16,4 @@ Hecha con Expo / React Native, para Android e iOS.
 
 ## A futuro
 
-La idea es dejar de depender de la base de datos local en el teléfono y pasar a un backend con base de datos centralizada, para que cada usuario pueda loguearse y acceder a sus datos desde cualquier dispositivo, y compartir el historial de partidos con el resto del grupo.
+La idea es dejar de depender de la base de datos local en el teléfono y pasar a un backend con base de datos centralizada, para que cada usuario pueda loguearse y acceder a sus datos desde cualquier dispositivo, y compartir el historial de partidos con el resto del grupo. Al tener todos los partidos centralizados, eso también habilita sumar un sistema de ranking tipo Elo entre los jugadores.
